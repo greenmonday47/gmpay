@@ -29,17 +29,30 @@
 <body>
   <h1>API Documentation</h1>
   <div class="endpoint">
-    <h2>Get User Information</h2>
-    <p>Endpoint: <code>/api/user/{id}</code></p>
-    <p>Method: <code>GET</code></p>
-    <p>Description: Returns information about a specific user with the given ID.</p>
+    <h2>Charge User</h2>
+    <p>Endpoint: <code>https://api.gmpayapp.com/api/v2/transactions/process</code></p>
+    <p>Method: <code>POST</code></p>
+    <p>Description: You will use the endpoint to debit GMPay accounts.</p>
     <pre>
-      Request: GET /api/user/123
+      Request: POST https://api.gmpayapp.com/api/v2/transactions/process
+      Request Body:
+      {
+    "service": "Checkout",
+    "amount": (Number Required),
+    "account": (String Required | Must start with country code or actual number without leading 0),
+    "pubKey": (String Required | merchant public key)
+      }
       Response:
       {
-        "id": 123,
-        "name": "John Doe",
-        "email": "johndoe@example.com"
+   "status": (HTTP STATUS CODE),
+   "statusText": (HTTP STATUS NAME),
+   "data" : {
+     "reference" : (TRANSACTION ID),
+     "message": (HUMAN READABLE MESSAGE),
+     "amount": (ORIGINAL AMOUNT),
+     "username": (USER FULLNAME),
+     "phoneNumber": (USER PHONE NUMBER),
+        }
       }
     </pre>
   </div>
