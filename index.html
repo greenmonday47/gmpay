@@ -1,78 +1,116 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>API Documentation</title>
-  <style>
-    h1 {
-      font-size: 36px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .endpoint {
-      margin-bottom: 40px;
-    }
-    .endpoint h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    .endpoint p {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-    .endpoint pre {
-      background-color: #eee;
-      padding: 10px;
-      font-size: 16px;
-    }
-  </style>
-</head>
-<body>
-  <h1>API Documentation</h1>
-  <div class="endpoint">
-    <h2>Charge User</h2>
-    <p>Endpoint: <code>https://api.gmpayapp.com/api/v2/transactions/process</code></p>
-    <p>Method: <code>POST</code></p>
-    <p>Description: You will use the endpoint to debit GMPay accounts.</p>
-    <pre>
+  <head>
+    <title>API Documentation</title>
+    <style>
+      h1 {
+        font-size: 36px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .endpoint {
+        margin-bottom: 40px;
+      }
+      .endpoint h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      .endpoint p {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      .endpoint pre {
+        background-color: #eee;
+        padding: 10px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>API Documentation</h1>
+    <div class="endpoint">
+      <h2>Charge User</h2>
+      <p>
+        Endpoint:
+        <code>https://api.gmpayapp.com/api/v2/transactions/process</code>
+      </p>
+      <p>Method: <code>POST</code></p>
+      <p>Description: You will use the endpoint to debit GMPay accounts.</p>
+      <pre>
       Request: POST https://api.gmpayapp.com/api/v2/transactions/process
-      Request Body:
+      Request Body:<br>
       {
-    "service": "Checkout",
-    "amount": (Number Required),
-    "account": (String Required | Must start with country code or actual number without leading 0),
-    "pubKey": (String Required | merchant public key)
+        "service": "Checkout",
+        "amount": 10000, <!-- (Number Required) -->
+        "account": 701987123, <!--(String Required | Must start with country code or actual number without leading 0) -->
+        "pubKey": GMPAY-PUB-FZ0cJFx0LEaGDkD-23 <!--(String Required | merchant public key) -->
       }
-      Response:
+      
+      Response:<br>
       {
-   "status": (HTTP STATUS CODE),
-   "statusText": (HTTP STATUS NAME),
-   "data" : {
-     "reference" : (TRANSACTION ID),
-     "message": (HUMAN READABLE MESSAGE),
-     "amount": (ORIGINAL AMOUNT),
-     "username": (USER FULLNAME),
-     "phoneNumber": (USER PHONE NUMBER),
+         "status": 200, <!-- (HTTP STATUS CODE) -->
+         "statusText": success, <!-- (HTTP STATUS NAME) -->
+         "data" : {
+                    "reference" : a7095684-9016-4002-a890-5992bc2c2725, <!--(TRANSACTION ID)-->
+                    "message": This transaction has been processed, <!-- (HUMAN READABLE MESSAGE) -->
+                    "amount": 10000, <!-- (ORIGINAL AMOUNT) -->
+                    "username": John Doe, <!-- (USER FULLNAME) -->
+                    "phoneNumber": +256701987123 <!-- (USER PHONE NUMBER) -->
+                  }
+      }
+
+      Error Response:<br>
+      {
+        "name" :"APIClientError",
+        "status" : 302, <!-- (HTTP STATUS CODE) -->
+        "statusText" : failed, <!-- (HTTP STATUS NAME) -->
+        "error" : 
+       {
+            "message" : Tnx failed due to something weird, <!-- (HUMAN READABLE ERROR) -->
+       }
+     }
+
+     Callback:<br>
+        {
+          status : timeout, <!-- (TRANSACTION STATUS | AVAILABLE STATUS : timeout, success, failed, canceled) -->
+          transacionId : a7095684-9016-4002-a890-5992bc2c2725, <!-- (TRANSACTION ID FROM GMPAY API) -->
+          amount : 10000, <!--(TRANSACTION ORIGINAL AMOUNT)-->
+          username : John Doe, <!--(USER FULLNAME)-->
+          phoneNumber : +256701987123, <!--(USER PHONE NUMBER)-->
+          trxStatus : failed <!--(ACTUAL TRANSACTION STATUS VIEWABLE IN GMPAY APP, COULD BE DIFFERENT FROM STATUS ABOVE)-->
         }
-      }
     </pre>
-  </div>
-  <div class="endpoint">
-    <h2>Update User Information</h2>
-    <p>Endpoint: <code>/api/user/{id}</code></p>
-    <p>Method: <code>PUT</code></p>
-    <p>Description: Updates information about a specific user with the given ID.</p>
-    <pre>
-      Request: PUT /api/user/123
+    </div>
+    <div class="endpoint">
+      <h2>Withdrawals</h2>
+      <p>Endpoint: <code>'https://api.gmpayapp.com/api/v2/transactions/status/:trx'</code></p>
+      <p>Method: <code>GET</code></p>
+      <p>
+        Description: This enables you to make automated payments to your clients.
+      </p>
+      <pre>
+      Request: GET 'https://api.gmpayapp.com/api/v2/transactions/status/:trx'
+      <p>trx : (TRANSACTION ID)</p>
       Body:
       {
-        "name": "Jane Doe",
-        "email": "janedoe@example.com"
-      }
+        "status": 200, <!-- (HTTP STATUS CODE) -->
+        "statusText": success <!-- (HTTP STATUS NAME) -->
+        "data" : {
+          "id" : b7c5e321-1f5b-43af-9d13-36d760badc77 <!--(TRANSACTION ID)-->
+          "status": success, <!--(success | failed | canceled | pending | initiated)-->
+          "amount": 10000, <!--(ORIGINAL AMOUNT)-->
+          "createdAt": 2023-01-26 08:10:44,<!--(DATE)-->
+          "updatedAt": 2023-01-26 08:10:44 <!--(DATE)-->
+        }
+     }
       Response:
       {
         "message": "User updated successfully."
       }
-    </pre>
-  </div>
-</body>
+
+      
+    </pre
+      >
+    </div>
+  </body>
 </html>
