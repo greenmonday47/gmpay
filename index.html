@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Documentation</title>
+  <style>
+    h1 {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .endpoint {
+      margin-bottom: 40px;
+    }
+    .endpoint h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .endpoint p {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .endpoint pre {
+      background-color: #eee;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>API Documentation</h1>
+  <div class="endpoint">
+    <h2>Get User Information</h2>
+    <p>Endpoint: <code>/api/user/{id}</code></p>
+    <p>Method: <code>GET</code></p>
+    <p>Description: Returns information about a specific user with the given ID.</p>
+    <pre>
+      Request: GET /api/user/123
+      Response:
+      {
+        "id": 123,
+        "name": "John Doe",
+        "email": "johndoe@example.com"
+      }
+    </pre>
+  </div>
+  <div class="endpoint">
+    <h2>Update User Information</h2>
+    <p>Endpoint: <code>/api/user/{id}</code></p>
+    <p>Method: <code>PUT</code></p>
+    <p>Description: Updates information about a specific user with the given ID.</p>
+    <pre>
+      Request: PUT /api/user/123
+      Body:
+      {
+        "name": "Jane Doe",
+        "email": "janedoe@example.com"
+      }
+      Response:
+      {
+        "message": "User updated successfully."
+      }
+    </pre>
+  </div>
+</body>
+</html>
