@@ -1,2 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>GMPay Documentation</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container" style="width: 950px;">
+        <h4 class="text-center" style="padding: 60px;"><strong>GMPay Checkout Documentation</strong></h4>
+    </div>
+    <div class="container" style="width: 950px;">
+        <div class="alert alert-success" role="alert"><span><strong>In order to Proceed you need to have Valid API Keys from your Merchant Profile, if you don't have a merchant account you must register for one before you proceed and further.</strong></span></div>
+    </div>
+    <div class="container" style="width: 950px;">
+        <h5>Prerequisite</h5>
+        <ul>
+            <li>Active GMPay Account</li>
+            <li>Verified GMPay Merchant Account</li>
+            <li>API Keys</li>
+            <li>Some Developer Knowledge</li>
+        </ul>
+    </div>
+    <div class="container" style="width: 950px;">
+        <h5>Methods</h5>
+        <ul>
+            <li>POST</li>
+            <li>GET</li>
+        </ul>
+    </div>
+    <div class="container" style="width: 950px;">
+        <h5>URL Links</h5>
+        <ul>
+            <li>https://api.gmpayapp.com/api/v2/transactions/init</li>
+            <li>https://api.gmpayapp.com/api/v2/transactions/process</li>
+            <li>https://api.gmpayapp.com/api/v2/transactions/status/:trx</li>
+        </ul>
+    </div>
+    <div class="container" style="width: 950px;">
+        <h5>Initializing Checkout</h5>
+        <div class="alert alert-success" role="alert"><span>Before you proceed to take any action you are required to first initialize the checkout page.</span></div><code><span style="color: rgb(20, 0, 255);">https://api.gmpayapp.com/api/v2/transactions/init?phone=PHONE_NUMBER&amp;amount=AMOUNT&amp;merchant=API_KEY</span></code>
+        <p>PHONE : STRING | REQUIRED (MUST START WITH COUNTRY CODE OR WITHOUT THE LEADING 0)<br>AMOUNT : DOUBLE | REQURIED<br>MERCHANT : STRING | REQUIRED (API KEY CAN BE FOUND IN THE GMPAY APP)</p>
+    </div>
+    <div class="container" style="width: 950px;">
+        <h5>Debit User</h5>
+        <p>URL: https://api.gmpayapp.com/api/v2/transactions/process<br>Method: <strong>POST</strong><br><strong>Payload</strong></p><code>{<br>"service" : "Checkout",<br>"amount" : (Number Required),<br>"account" : (String Required | Must start with country code or actual number without leading 0),<br>"pubKey" : (String Required | merchant public key)<br>}</code>
+        <p><strong>Success Response</strong></p><code><span style="color: rgb(5, 128, 17);">{</span><br><span style="color: rgb(5, 128, 17);">"status": (HTTP STATUS CODE),</span><br><span style="color: rgb(5, 128, 17);">"statusText": (HTTP STATUS NAME),</span><br><span style="color: rgb(5, 128, 17);">"data" : {</span><br><span style="color: rgb(5, 128, 17);">"reference" : (TRANSACTION ID),</span><br><span style="color: rgb(5, 128, 17);">"message": (HUMAN READABLE MESSAGE),</span><br><span style="color: rgb(5, 128, 17);">"amount": (ORIGINAL AMOUNT),</span><br><span style="color: rgb(5, 128, 17);">"username": (USER FULLNAME),</span><br><span style="color: rgb(5, 128, 17);">"phoneNumber": (USER PHONE NUMBER),</span><br><span style="color: rgb(5, 128, 17);">&nbsp; }</span><br><span style="color: rgb(5, 128, 17);">}</span></code>
+        <p><strong>Error Response</strong></p><code>{<br>"name" :"APIClientError",<br>"status" : (HTTP STATUS CODE),<br>"statusText" : (HTTP STATUS NAME),<br>"error" :&nbsp;<br>&nbsp; &nbsp;{<br>"message" : (HUMAN READABLE ERROR)<br>&nbsp; &nbsp;}<br>}</code>
+        <p><strong>Callback Response</strong></p><code>{<br>status : (TRANSACTION STATUS | AVAILABLE STATUS : timeout, success, failed, canceled),<br>transacionId : (TRANSACTION ID FROM GMPAY API),<br>amount : (TRANSACTION ORIGINAL AMOUNT),<br>username : (USER FULLNAME),<br>phoneNumber : (USER PHONE NUMBER),<br>trxStatus : (ACTUAL TRANSACTION STATUS VIEWABLE IN GMPAY APP, COULD BE DIFFERENT FROM STATUS ABOVE)<br>}</code>
+    </div>
+    <div class="container" style="width: 950px;">
+        <h5>Automatic Withdrawals to GMPay users account</h5>
+        <p>URL: 'https://api.gmpayapp.com/api/v2/transactions/status/:trx'<br>Method:&nbsp;<strong>GET</strong><br><strong>trx : (TRANSACTION ID)</strong><br><strong>Payload</strong></p><code>{<br>"status": (HTTP STATUS CODE),<br>"statusText": (HTTP STATUS NAME),<br>"data" : {<br>"id" : (TRANSACTION ID),<br>"status": (success | failed | canceled | pending | initiated),<br>"amount": (ORIGINAL AMOUNT),<br>"createdAt": (DATE),<br>"updatedAt": (DATE),<br>&nbsp; }<br>}</code>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
 
 </html>
