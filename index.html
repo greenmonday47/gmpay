@@ -36,6 +36,7 @@
         <ul>
             <li>https://api.gmpayapp.com/api/v2/transactions/init</li>
             <li>https://api.gmpayapp.com/api/v2/transactions/process</li>
+            <li>https://api.gmpayapp.com/api/v2/transactions/cashout</li>
             <li>https://api.gmpayapp.com/api/v2/transactions/status/:trx</li>
         </ul>
     </div>
@@ -52,7 +53,10 @@
         <p><strong>Callback Response</strong></p><code>{<br>status : (TRANSACTION STATUS | AVAILABLE STATUS : timeout, success, failed, canceled),<br>transacionId : (TRANSACTION ID FROM GMPAY API),<br>amount : (TRANSACTION ORIGINAL AMOUNT),<br>username : (USER FULLNAME),<br>phoneNumber : (USER PHONE NUMBER),<br>trxStatus : (ACTUAL TRANSACTION STATUS VIEWABLE IN GMPAY APP, COULD BE DIFFERENT FROM STATUS ABOVE)<br>}</code>
     </div>
     <div class="container" style="width: 950px;">
-        <h5>Automatic Withdrawals to GMPay users account</h5>
+        <h5>Cashout</h5>
+        <div class="alert alert-success" role="alert"><span>Before you proceed to take any action you are required to first initialize the checkout page.</span></div>
+        <p>URL: https://api.gmpayapp.com/api/v2/transactions/cashout?phone=256702XXXXXX&amp;amount=30000&amp;return=YOUR-LINK&amp;merchant=GMPAY-PUB-XXXXXXXX-23&amp;action=pull<br>Method:&nbsp;<strong>GET</strong><br><strong>Payload</strong></p><code>PHONE : STRING | REQUIRED (MUST START WITH COUNTRY CODE OR WITHOUT THE LEADING 0)<br>AMOUNT : DOUBLE | REQURIED<br>MERCHANT : STRING | REQUIRED (API KEY CAN BE FOUND IN THE GMPAY APP)</code>
+        <h5><br><br>Cashout Status</h5>
         <p>URL: 'https://api.gmpayapp.com/api/v2/transactions/status/:trx'<br>Method:&nbsp;<strong>GET</strong><br><strong>trx : (TRANSACTION ID)</strong><br><strong>Payload</strong></p><code>{<br>"status": (HTTP STATUS CODE),<br>"statusText": (HTTP STATUS NAME),<br>"data" : {<br>"id" : (TRANSACTION ID),<br>"status": (success | failed | canceled | pending | initiated),<br>"amount": (ORIGINAL AMOUNT),<br>"createdAt": (DATE),<br>"updatedAt": (DATE),<br>&nbsp; }<br>}</code>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
